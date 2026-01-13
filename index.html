@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yiwu Small Commodities - Wholesale Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #f8f9fa; color: #333; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+        
+        /* Header */
+        header { background: linear-gradient(to right, #1e7e34, #28a745); color: white; padding: 15px 0; box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1); }
+        .header-container { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: 700; display: flex; align-items: center; }
+        .logo i { margin-right: 10px; }
+        .contact-info { text-align: right; }
+        .contact-info p { margin: 5px 0; font-size: 14px; }
+
+        /* Hero */
+        .hero { padding: 50px 0; background: linear-gradient(to bottom right, #f8f9fa, #e9f5e9); text-align: center; }
+        .hero-content { max-width: 600px; margin: 0 auto; }
+        
+        h1 { font-size: 36px; color: #1e7e34; margin-bottom: 20px; line-height: 1.3; }
+        
+        .free-delivery { font-size: 18px; color: #28a745; font-weight: 600; margin-bottom: 30px; }
+        
+        /* Buttons */
+        .cta-buttons { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+            margin: 30px auto; 
+            max-width: 400px;
+            width: 100%;
+        }
+        
+        .btn { 
+            padding: 18px 20px; 
+            border-radius: 50px; 
+            font-weight: 600; 
+            font-size: 20px; 
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: all 0.3s ease; 
+            border: none; 
+            text-decoration: none; 
+            color: white;
+            width: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .btn-whatsapp { background-color: #25D366; }
+        .btn-whatsapp:hover { background-color: #1ebc57; }
+        
+        .btn-contact { background-color: #dc3545; animation: pulse 2s infinite; }
+        .btn-contact:hover { background-color: #c82333; }
+
+        .btn i { margin-right: 15px; font-size: 24px; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 7px 15px rgba(0, 0, 0, 0.15); }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(220, 53, 69, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(220, 53, 69, 0); }
+        }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { background-color: white; width: 90%; max-width: 500px; border-radius: 10px; padding: 30px; position: relative; animation: modalOpen 0.3s ease; max-height: 90vh; overflow-y: auto; }
+        @keyframes modalOpen { from {opacity: 0; transform: translateY(-50px);} to {opacity: 1; transform: translateY(0);} }
+        .close-modal { position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #888; }
+        .form-title { text-align: center; color: #1e7e34; margin-bottom: 15px; }
+        
+        .order-summary { background-color: #e9f5e9; border: 2px dashed #28a745; padding: 15px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .product-name { font-weight: bold; font-size: 18px; color: #1e7e34; }
+        .product-details { font-size: 14px; color: #555; }
+
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 500; color: #555; }
+        .form-group input, .form-group textarea, .form-group select { 
+            width: 100%; 
+            padding: 12px 15px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+            font-size: 16px; 
+        }
+        .form-group textarea { min-height: 80px; resize: vertical; }
+        .phone-group { display: flex; gap: 10px; }
+        .phone-group select { flex: 1; max-width: 120px; }
+        .phone-group input { flex: 2; }
+        .submit-btn { background-color: #28a745; color: white; width: 100%; padding: 15px; font-size: 18px; font-weight: 600; border: none; border-radius: 5px; cursor: pointer; }
+        .submit-btn:hover { background-color: #1e7e34; }
+        .submit-btn:disabled { background-color: #ccc; cursor: not-allowed; }
+
+        /* Notification */
+        .notification { position: fixed; bottom: 20px; right: 20px; background-color: #28a745; color: white; padding: 15px 25px; border-radius: 5px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2); display: none; z-index: 1001; animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from {transform: translateX(100%); opacity: 0;} to {transform: translateX(0); opacity: 1;} }
+
+        /* Footer */
+        footer { background-color: #1e7e34; color: white; padding: 30px 0; text-align: center; margin-top: 50px; }
+        .footer-logo { font-size: 22px; font-weight: 700; margin-bottom: 15px; }
+        .copyright { margin-top: 20px; font-size: 14px; opacity: 0.8; }
+
+        @media (max-width: 768px) {
+            .header-container { flex-direction: column; text-align: center; }
+            .contact-info { text-align: center; margin-top: 10px; }
+            h1 { font-size: 28px; }
+            .cta-buttons { width: 95%; }
+            .phone-group { flex-direction: column; }
+            .phone-group select { max-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-store"></i> Yiwu Small Commodities
+            </div>
+            <div class="contact-info">
+                <p><i class="fas fa-globe"></i> Based in Indonesia</p>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Wholesale Business Contact</h1>
+            <div class="free-delivery">
+                <i class="fas fa-handshake"></i> Looking for wholesale suppliers? Contact us directly for bulk orders and business inquiries.
+            </div>
+            
+            <div class="cta-buttons">
+                <a href="https://wa.me/62882015432173" class="btn btn-whatsapp" target="_blank">
+                    <i class="fab fa-whatsapp"></i> Contact on WhatsApp
+                </a>
+                
+                <button class="btn btn-contact" id="contactBtn">
+                    <i class="fas fa-envelope"></i> Send Inquiry
+                </button>
+            </div>
+            
+            <div class="free-delivery">
+                <i class="fas fa-info-circle"></i> We specialize in wholesale small commodities from Yiwu market. Send your inquiry and we'll respond within 24 hours.
+            </div>
+        </div>
+    </section>
+
+    <div class="modal" id="contactModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <h2 class="form-title">Business Inquiry Form</h2>
+            
+            <div class="order-summary">
+                <div class="product-name">Wholesale Inquiry</div>
+                <div class="product-details">Please fill out this form for wholesale price quotes and business inquiries. We'll contact you shortly.</div>
+            </div>
+
+            <form id="inquiryForm">
+                <div class="form-group">
+                    <label for="fullName">Your Name <span style="color:red">*</span></label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="countryCode">Phone Number <span style="color:red">*</span></label>
+                    <div class="phone-group">
+                        <select id="countryCode" required>
+                            <option value="">Code</option>
+                            <option value="+62">Indonesia (+62)</option>
+                            <option value="+1">USA (+1)</option>
+                            <option value="+44">UK (+44)</option>
+                            <option value="+91">India (+91)</option>
+                            <option value="+86">China (+86)</option>
+                            <option value="+971">UAE (+971)</option>
+                            <option value="+65">Singapore (+65)</option>
+                            <option value="+60">Malaysia (+60)</option>
+                            <option value="+66">Thailand (+66)</option>
+                            <option value="+63">Philippines (+63)</option>
+                            <option value="+84">Vietnam (+84)</option>
+                            <option value="+880">Bangladesh (+880)</option>
+                            <option value="+92">Pakistan (+92)</option>
+                        </select>
+                        <input type="tel" id="phone" placeholder="Phone number" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="address">Full Address <span style="color:red">*</span></label>
+                    <textarea id="address" placeholder="Street, City, State/Province, Country" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="businessType">Type of Business</label>
+                    <select id="businessType">
+                        <option value="">Select business type</option>
+                        <option value="retail">Retail Store</option>
+                        <option value="wholesale">Wholesale Business</option>
+                        <option value="online">Online Store</option>
+                        <option value="distributor">Distributor</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Message</label>
+                    <textarea id="message" placeholder="Tell us about your business needs, products you're interested in, or any specific requirements..."></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn" id="submitBtn">Send Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Thank you! Your inquiry has been submitted successfully. We'll contact you soon.
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo">Yiwu Small Commodities</div>
+            <p>Your trusted wholesale partner for small commodities</p>
+            <div class="contact-info" style="text-align: center; margin-top: 15px;">
+                <p><i class="fab fa-whatsapp"></i> WhatsApp: +62 882-0154-32173</p>
+                <p><i class="fas fa-map-marker-alt"></i> Based in Indonesia</p>
+            </div>
+            <div class="copyright">
+                &copy; 2025 Yiwu Small Commodities. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Elements
+        const contactBtn = document.getElementById('contactBtn');
+        const contactModal = document.getElementById('contactModal');
+        const closeModal = document.getElementById('closeModal');
+        const inquiryForm = document.getElementById('inquiryForm');
+        const notification = document.getElementById('notification');
+        const submitBtn = document.getElementById('submitBtn');
+        const countryCodeSelect = document.getElementById('countryCode');
+        const phoneInput = document.getElementById('phone');
+        const addressInput = document.getElementById('address');
+
+        // Indonesia addresses for placeholder/auto-fill
+        const indonesiaAddresses = [
+            "Jl. Sudirman No.123, Jakarta Pusat, DKI Jakarta, Indonesia",
+            "Jl. Thamrin No.45, Jakarta Selatan, DKI Jakarta, Indonesia",
+            "Jl. Gajah Mada No.78, Jakarta Barat, DKI Jakarta, Indonesia",
+            "Jl. Asia Afrika No.100, Bandung, Jawa Barat, Indonesia",
+            "Jl. Malioboro No.50, Yogyakarta, DI Yogyakarta, Indonesia",
+            "Jl. Pemuda No.25, Surabaya, Jawa Timur, Indonesia",
+            "Jl. Diponegoro No.67, Semarang, Jawa Tengah, Indonesia",
+            "Jl. Hasanuddin No.89, Makassar, Sulawesi Selatan, Indonesia",
+            "Jl. Udayana No.12, Denpasar, Bali, Indonesia",
+            "Jl. Ahmad Yani No.34, Medan, Sumatera Utara, Indonesia"
+        ];
+
+        // Get user's country code from IP
+        async function getUserCountryCode() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                const countryCode = data.country_calling_code;
+                
+                // Set the country code in dropdown if it exists
+                const option = countryCodeSelect.querySelector(`option[value="${countryCode}"]`);
+                if (option) {
+                    countryCodeSelect.value = countryCode;
+                } else {
+                    countryCodeSelect.value = '+62'; // Default to Indonesia
+                }
+                
+                // Auto-fill Indonesia address if user is from Indonesia
+                if (data.country_code === 'ID') {
+                    const randomAddress = indonesiaAddresses[Math.floor(Math.random() * indonesiaAddresses.length)];
+                    addressInput.placeholder = randomAddress;
+                }
+                
+                return countryCode;
+            } catch (error) {
+                console.log('Error getting country code:', error);
+                countryCodeSelect.value = '+62'; // Default to Indonesia
+                return '+62';
+            }
+        }
+
+        // Initialize country code on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            getUserCountryCode();
+        });
+
+        // Open Modal
+        contactBtn.addEventListener('click', () => {
+            contactModal.style.display = 'flex';
+        });
+
+        // Close Modal
+        closeModal.addEventListener('click', () => {
+            contactModal.style.display = 'none';
+        });
+
+        // Close clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+            }
+        });
+
+        // Form Submit Logic (TELEGRAM INTEGRATION)
+        inquiryForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Sending...";
+
+            const fullName = document.getElementById('fullName').value;
+            const countryCode = document.getElementById('countryCode').value;
+            const phone = document.getElementById('phone').value;
+            const address = document.getElementById('address').value;
+            const businessType = document.getElementById('businessType').value;
+            const message = document.getElementById('message').value;
+
+            // Telegram Bot Config - UPDATED
+            const botToken = '8318012161:AAHmaWnEE78YCLStjqowVh6nXqy0LNP4Cp4';
+            const chatId = '7182138966'; // Your UID
+            
+            // Message format
+            const telegramMessage = `
+📦 *NEW WHOLESALE INQUIRY - Yiwu Small Commodities*
+----------------------------
+👤 *Name:* ${fullName}
+📞 *Phone:* ${countryCode} ${phone}
+📍 *Address:* ${address}
+🏢 *Business Type:* ${businessType || 'Not specified'}
+💬 *Message:* ${message || 'No additional message'}
+🌍 *Country Code:* ${countryCode}
+----------------------------
+*IP Info:* ${await getIPInfo()}
+`;
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chat_id: chatId,
+                        text: telegramMessage,
+                        parse_mode: 'Markdown'
+                    })
+                });
+
+                if (response.ok) {
+                    notification.style.display = 'block';
+                    contactModal.style.display = 'none';
+                    inquiryForm.reset();
+                    
+                    setTimeout(() => {
+                        notification.style.display = 'none';
+                    }, 5000);
+                } else {
+                    alert('Sorry, there was an error sending your inquiry. Please try again or contact us on WhatsApp.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Network error. Please try again or contact us on WhatsApp.');
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Send Inquiry";
+            }
+        });
+
+        // Get IP info for Telegram message
+        async function getIPInfo() {
+            try {
+                const response = await fetch('https://ipapi.co/json/');
+                const data = await response.json();
+                return `${data.ip}, ${data.city}, ${data.country_name}`;
+            } catch (error) {
+                return 'IP info not available';
+            }
+        }
+
+        // Phone Validation
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            e.target.value = value;
+        });
+
+        // Auto-select Indonesia if address contains Indonesia
+        addressInput.addEventListener('input', (e) => {
+            if (e.target.value.toLowerCase().includes('indonesia') && countryCodeSelect.value === '') {
+                countryCodeSelect.value = '+62';
+            }
+        });
+    </script>
+</body>
+</html>
